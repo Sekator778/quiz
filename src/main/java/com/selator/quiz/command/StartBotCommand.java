@@ -41,6 +41,7 @@ public class StartBotCommand implements BotCommand {
         keyboard.add(button);
         inlineKeyboardMarkup.setKeyboard(keyboard);
         SendMessage sendMessage = new SendMessage();
+        sendMessage.setText("choose");
         sendMessage.setChatId(chatId);
         sendMessage.setReplyMarkup(inlineKeyboardMarkup);
         return new Answer(sendMessage, true);
@@ -49,7 +50,7 @@ public class StartBotCommand implements BotCommand {
     private void createButton(Long id, String nameButton,
                               String dataButton, List<InlineKeyboardButton> button) {
         button.add(InlineKeyboardButton.builder()
-                .text("bundleLanguage.getValue(id, nameButton)")
+                .text("Button")
                 .callbackData(dataButton)
                 .build());
     }
