@@ -1,1 +1,2 @@
-1;2;3
+What is ORM in Hibernate?;Hibernate ORM stands for Object Relational Mapping. This is a mapping tool pattern mainly used for converting data stored in a relational database to an object used in object-oriented programming constructs. This tool also helps greatly in simplifying data retrieval, creation, and manipulation.;i don't know;Take this "Hibernate Interview Questions" interview guide with you;1
+0;1;2;3;4

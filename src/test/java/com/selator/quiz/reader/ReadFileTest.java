@@ -32,8 +32,8 @@ class ReadFileTest {
         ReadFile readFile = new ReadFile(tempFile.toString());
         readFile.fillDateMap(1L);
         ArrayList<Record> records = readFile.getData().get(1L);
-        assertThat(records.get(0).getS1()).isEqualTo("Line 1");
-        assertThat(records.get(0).getS2()).isEqualTo("Line 2");
-        assertThat(records.get(0).getS3()).isEqualTo("Line 3");
+        assertThat(records.get(0).getA1()).isEqualTo("Line 1");
+        assertThat(records.get(0).getA2()).isEqualTo("Line 2");
+        assertThat(records.get(0).getA3()).isEqualTo("Line 3");
     }
 }

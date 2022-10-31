@@ -46,23 +46,6 @@ public class Bot extends TelegramLongPollingBot {
             log.warn("error onUpdateReceived {}", ex.getLocalizedMessage());
         }
     }
-//    @Override
-//    public void onUpdateReceived(Update update) {
-//        if (update.hasMessage()) {
-//            Message message = update.getMessage();
-//            if (message.hasText()) {
-//                String text = message.getText();
-//                SendMessage sm = new SendMessage();
-//                sm.setText("Ви відправили: " + text);
-//                sm.setChatId(String.valueOf(message.getChatId()));
-//                try {
-//                    execute(sm);
-//                } catch (TelegramApiException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//    }
 
     private void textHandler(Update update) {
     }
@@ -80,20 +63,6 @@ public class Bot extends TelegramLongPollingBot {
             log.error("send error {}", e.getMessage());
         }
     }
-//
-//    public void sendMessage(String chatId, String message) {
-//        SendMessage sendMessage = new SendMessage();
-//        sendMessage.setChatId(chatId);
-//        sendMessage.enableHtml(true);
-//        sendMessage.setText(message);
-//        try {
-//            this.execute(sendMessage);
-//            log.info("send message {}", message);
-//        } catch (TelegramApiException e) {
-//            log.warn(e.getLocalizedMessage());
-//        }
-//    }
-
 
     private BotCommand getBotCommand(String botCommand) {
         return iCommands.getOrDefault(botCommand,

@@ -29,7 +29,7 @@ public class ReadFile {
         try {
             Files.lines(Path.of(filePath))
                     .map(l -> l.split(";"))
-                    .forEach(a -> createGraph(telegramId, new Record(a[0], a[1], a[2])));
+                    .forEach(a -> createGraph(telegramId, new Record(a[0], a[1], a[2], a[3], a[4])));
         } catch (IOException exception) {
             log.error("file exist {}", exception.getMessage());
             return false;

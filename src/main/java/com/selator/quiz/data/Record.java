@@ -8,7 +8,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class Record {
-    private String s1;
-    private String s2;
-    private String s3;
+    private String question;
+    private String a1;
+    private String a2;
+    private String a3;
+    private String answer;
 }
