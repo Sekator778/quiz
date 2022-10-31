@@ -43,7 +43,7 @@ public class Bot extends TelegramLongPollingBot {
                 textHandler(update);
             }
         } catch (Exception ex) {
-            log.warn(ex.getLocalizedMessage());
+            log.warn("error onUpdateReceived {}", ex.getLocalizedMessage());
         }
     }
 //    @Override
@@ -70,7 +70,7 @@ public class Bot extends TelegramLongPollingBot {
     private void commandHandler(Update update) {
         String messageText = update.getMessage().getText().trim();
         String commandIdentifier = CommandUtils.buildCommandName(messageText);
-        log.info("new command here {}", commandIdentifier);
+        log.info("new command here commandHandler {}", commandIdentifier);
         BotCommand botCommand = getBotCommand(commandIdentifier);
         Answer execute = botCommand.execute(update);
         log.info("answer {}", execute);
@@ -101,7 +101,18 @@ public class Bot extends TelegramLongPollingBot {
     }
 
     private void callbackQueryHandler(Update update) {
-        log.info("hello");
+        String data = update.getCallbackQuery().getData();
+        log.info("update {}", data);
+        String commandIdentifier = CommandUtils.buildCommandName(data);
+        log.info("new command here callbackQueryHandler {}", commandIdentifier);
+        BotCommand botCommand = getBotCommand(commandIdentifier);
+        Answer execute = botCommand.execute(update);
+        log.info("answer {}", execute);
+        try {
+            this.execute(execute.getSendMessage());
+        } catch (TelegramApiException e) {
+            log.error("send error {}", e.getMessage());
+        }
 
     }
 
