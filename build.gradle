@@ -21,11 +21,9 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.telegram:telegrambots:6.1.0'
-// https://mvnrepository.com/artifact/com.vdurmont/emoji-java
     implementation 'com.vdurmont:emoji-java:5.1.1'
-// https://mvnrepository.com/artifact/org.telegram/telegrambots-spring-boot-starter
+    implementation 'org.apache.commons:commons-lang3:3.0'
     implementation 'org.telegram:telegrambots-spring-boot-starter:6.1.0'
-
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'

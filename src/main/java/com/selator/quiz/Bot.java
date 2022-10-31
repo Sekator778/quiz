@@ -4,13 +4,14 @@ package com.selator.quiz;
 import com.selator.quiz.command.BotCommand;
 import com.selator.quiz.command.StartBotCommand;
 import com.selator.quiz.command.UnknownBotCommand;
+import com.selator.quiz.data.Answer;
+import com.selator.quiz.util.CommandUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
@@ -70,18 +71,28 @@ public class Bot extends TelegramLongPollingBot {
 
     private void commandHandler(Update update) {
         String messageText = update.getMessage().getText().trim();
-        String commandIdentifier = messageText.split(" ")[0].toLowerCase();
+        String commandIdentifier = CommandUtils.buildCommandName(messageText);
         log.info("new command here {}", commandIdentifier);
-
-        if (commandIdentifier.equals("startbotcommand")) {
-            if (getBotCommand("/reg").execute(update).isDone()) {
-                getBotCommand(StartBotCommand.class.getSimpleName()).execute(update);
-            }
-        } else {
-            getBotCommand(commandIdentifier).execute(update);
-        }
-
+        BotCommand botCommand = getBotCommand(commandIdentifier);
+        Answer execute = botCommand.execute(update);
+        log.info("answer {}", execute);
+        //            this.execute(execute.getSendMessage());
+        sendMessage(String.valueOf(update.getMessage().getChatId()), "Helllooo");
     }
+
+    public void sendMessage(String chatId, String message) {
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(chatId);
+        sendMessage.enableHtml(true);
+        sendMessage.setText(message);
+        try {
+            this.execute(sendMessage);
+            log.info("send message {}", message);
+        } catch (TelegramApiException e) {
+            log.warn(e.getLocalizedMessage());
+        }
+    }
+
 
     private BotCommand getBotCommand(String botCommand) {
         return iCommands.getOrDefault(botCommand,
