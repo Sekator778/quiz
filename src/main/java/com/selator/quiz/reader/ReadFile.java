@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,7 +30,8 @@ public class ReadFile {
         try {
             Files.lines(Path.of(filePath))
                     .map(l -> l.split(";"))
-                    .forEach(a -> createGraph(telegramId, new Record(a[0], a[1], a[2], a[3], a[4])));
+                    .filter(l -> l.length == 5)
+                    .forEach(a -> createGraph(telegramId, new Record(a[0].trim(), a[1].trim(), a[2].trim(), a[3].trim(), a[4].trim())));
         } catch (IOException exception) {
             log.error("file exist {}", exception.getMessage());
             return false;

@@ -20,7 +20,7 @@ class ReadFileTest {
         // create a temporary file
         try {
             tempFile = Files.createTempFile(null, null);
-            String content = "Line 1;Line 2;Line 3";
+            String content = "Ask; Line 1;Line 2;Line 3; Answer";
             Files.write(tempFile, content.getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
             throw new RuntimeException(e);
