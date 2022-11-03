@@ -1,0 +1,9 @@
+#--------------------------------------------------------------
+# Simple AWS CodeDeploy Config File
+#--------------------------------------------------------------
+
+version: 0.0
+os     : windows
+files:
+  - source     : \
+    destination: C:\inetpub\wwwroot
