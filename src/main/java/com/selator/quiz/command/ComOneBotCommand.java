@@ -11,14 +11,11 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Start {@link BotCommand}.
- */
 @Component
-public class StartBotCommand implements BotCommand {
+public class ComOneBotCommand implements BotCommand {
 
     @Autowired
-    public StartBotCommand() {
+    public ComOneBotCommand() {
     }
 
     @Override
@@ -37,12 +34,8 @@ public class StartBotCommand implements BotCommand {
         List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
         List<InlineKeyboardButton> button = new ArrayList<>();
         button.add(InlineKeyboardButton.builder()
-                .text("Button Left")
-                .callbackData("comOne")
-                .build());
-        button.add(InlineKeyboardButton.builder()
-                .text("Button Right")
-                .callbackData("comTwo")
+                .text("begin")
+                .callbackData("begin")
                 .build());
         keyboard.add(button);
         inlineKeyboardMarkup.setKeyboard(keyboard);
@@ -52,5 +45,4 @@ public class StartBotCommand implements BotCommand {
         sendMessage.setReplyMarkup(inlineKeyboardMarkup);
         return new Answer(sendMessage, true);
     }
-
 }

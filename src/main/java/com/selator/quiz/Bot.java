@@ -2,7 +2,6 @@ package com.selator.quiz;
 
 
 import com.selator.quiz.command.BotCommand;
-import com.selator.quiz.command.StartBotCommand;
 import com.selator.quiz.command.UnknownBotCommand;
 import com.selator.quiz.data.Answer;
 import com.selator.quiz.util.CommandUtils;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
@@ -45,26 +43,9 @@ public class Bot extends TelegramLongPollingBot {
                 textHandler(update);
             }
         } catch (Exception ex) {
-            log.warn(ex.getLocalizedMessage());
+            log.warn("error onUpdateReceived {}", ex.getLocalizedMessage());
         }
     }
-//    @Override
-//    public void onUpdateReceived(Update update) {
-//        if (update.hasMessage()) {
-//            Message message = update.getMessage();
-//            if (message.hasText()) {
-//                String text = message.getText();
-//                SendMessage sm = new SendMessage();
-//                sm.setText("Ви відправили: " + text);
-//                sm.setChatId(String.valueOf(message.getChatId()));
-//                try {
-//                    execute(sm);
-//                } catch (TelegramApiException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//    }
 
     private void textHandler(Update update) {
     }
@@ -72,27 +53,16 @@ public class Bot extends TelegramLongPollingBot {
     private void commandHandler(Update update) {
         String messageText = update.getMessage().getText().trim();
         String commandIdentifier = CommandUtils.buildCommandName(messageText);
-        log.info("new command here {}", commandIdentifier);
+        log.info("new command here commandHandler {}", commandIdentifier);
         BotCommand botCommand = getBotCommand(commandIdentifier);
         Answer execute = botCommand.execute(update);
         log.info("answer {}", execute);
-        //            this.execute(execute.getSendMessage());
-        sendMessage(String.valueOf(update.getMessage().getChatId()), "Helllooo");
-    }
-
-    public void sendMessage(String chatId, String message) {
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(chatId);
-        sendMessage.enableHtml(true);
-        sendMessage.setText(message);
         try {
-            this.execute(sendMessage);
-            log.info("send message {}", message);
+            this.execute(execute.getSendMessage());
         } catch (TelegramApiException e) {
-            log.warn(e.getLocalizedMessage());
+            log.error("send error {}", e.getMessage());
         }
     }
-
 
     private BotCommand getBotCommand(String botCommand) {
         return iCommands.getOrDefault(botCommand,
@@ -100,7 +70,18 @@ public class Bot extends TelegramLongPollingBot {
     }
 
     private void callbackQueryHandler(Update update) {
-        log.info("hello");
+        String data = update.getCallbackQuery().getData();
+        log.info("update {}", data);
+        String commandIdentifier = CommandUtils.buildCommandName(data);
+        log.info("new command here callbackQueryHandler {}", commandIdentifier);
+        BotCommand botCommand = getBotCommand(commandIdentifier);
+        Answer execute = botCommand.execute(update);
+        log.info("answer {}", execute);
+        try {
+            this.execute(execute.getSendMessage());
+        } catch (TelegramApiException e) {
+            log.error("send error {}", e.getMessage());
+        }
 
     }
 
